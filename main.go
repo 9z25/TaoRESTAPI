@@ -203,7 +203,7 @@ func main() {
        r.HandleFunc("/api/getnewaddress/", GetNewAddress).Methods("GET")
        r.HandleFunc("/api/getaddress/", GetAddress).Methods("GET")
        r.HandleFunc("/api/sendtoaddress/", SendToAddress).Methods("POST")
-       r.HandleFunc("/api/sendrawtransaction/", SendToAddress).Methods("POST")
+       r.HandleFunc("/api/sendrawtransaction/", SendRawTransaction).Methods("POST")
        log.Fatal(http.ListenAndServe(":8000", r))
        //log.Fatal(http.ListenAndServe(":8000",r))
 
