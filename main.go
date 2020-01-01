@@ -59,6 +59,7 @@ return false
 return true
 }
 
+//SendRawTransaction: broadcast transaction
 func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
 
   a := authorized(w,r)
@@ -88,7 +89,7 @@ func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
   }
 
 
-  // GetAddress, get current address
+  // GetAddress : get current address
 func GetAddress(w http.ResponseWriter, r *http.Request) {
 
 a := authorized(w,r)
@@ -195,6 +196,7 @@ func main() {
        r.HandleFunc("/api/getnewaddress/", GetNewAddress).Methods("GET")
        r.HandleFunc("/api/getaddress/", GetAddress).Methods("GET")
        r.HandleFunc("/api/sendtoaddress/", SendToAddress).Methods("POST")
+       r.HandleFunc("/api/sendrawtransaction/", SendToAddress).Methods("POST")
        log.Fatal(http.ListenAndServe(":8000", r))
        //log.Fatal(http.ListenAndServe(":8000",r))
 
