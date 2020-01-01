@@ -98,6 +98,7 @@ if a != true {
 return
 }
 
+fmt.Println("this is a test")
 
   address, err := Node.GetAccountAddress("")
 
