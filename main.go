@@ -78,9 +78,8 @@ func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
 
   _ = json.NewDecoder(r.Body).Decode(&hash)
   
-	fmt.Println(hash)
-  
     res := Node.SendRawTransaction(hash.Tx)
+
 
     var page Book
     page.Result = res.Error()
