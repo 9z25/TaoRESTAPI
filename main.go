@@ -78,18 +78,12 @@ func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
 
   _ = json.NewDecoder(r.Body).Decode(&hash)
   
+	fmt.Println(hash)
   
-    err := Node.SendRawTransaction(hash.Tx)
-  
-    if err != nil {
-    fmt.Println(err)
-    }
-  
-  
-  
-  
+    res := Node.SendRawTransaction(hash.Tx)
+
     var page Book
-    page.Result = "view log"
+    page.Result = res.Error()
   
   
     w.Header().Set("Content-Type","application/json")
