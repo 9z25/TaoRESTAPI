@@ -15,9 +15,9 @@ import (
 
 const (
 	SERVER_HOST        = "127.0.0.1"
-	SERVER_PORT        = 8332
-	USER               = "rsenejr"
-	PASSWD             = "seventy7"
+	SERVER_PORT        = 15151
+	USER               = ""
+	PASSWD             = ""
 	USESSL             = false
 )
 
