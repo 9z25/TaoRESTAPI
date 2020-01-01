@@ -2,7 +2,7 @@ package main
 
 
 import (
-	      "github.com/9z25/go-bitcoind"
+	      "github.com/toorop/go-bitcoind"
 	      "log"
         "github.com/gorilla/mux"
         "net/http"
@@ -38,6 +38,7 @@ var books []Book
 var Node *bitcoind.Bitcoind
 
 
+// Connect: Connect to RPC
 func (taoN TaoNode) Connect() *bitcoind.Bitcoind {
 
   connection, err := bitcoind.New(SERVER_HOST, SERVER_PORT, USER, PASSWD, USESSL)
@@ -140,6 +141,7 @@ return
 
 }
 
+//SendToAddress: send Tao to external address
 func SendToAddress(w http.ResponseWriter, r *http.Request) {
 
 a := authorized(w,r)
