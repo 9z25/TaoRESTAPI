@@ -78,6 +78,7 @@ func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
 
   _ = json.NewDecoder(r.Body).Decode(&hash)
   
+	fmt.Println(hash)
   
     err := Node.SendRawTransaction(hash.Tx)
   
