@@ -2,15 +2,12 @@ package main
 
 
 import (
-	"github.com/toorop/go-bitcoind"
-	"log"
-//        "github.com/gorilla/handlers"
-//"github.com/rs/cors"
+	      "github.com/9z25/go-bitcoind"
+	      "log"
         "github.com/gorilla/mux"
         "net/http"
         "encoding/json"
         "fmt"
-//        "os"
 )
 
 const (
@@ -62,6 +59,36 @@ return false
 return true
 }
 
+func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
+
+  a := authorized(w,r)
+  if a != true {
+  return
+  }
+
+  fmt.Println(r.Body)
+  
+  /*
+    address, err := Node.SendRawTransaction("")
+  
+    if err != nil {
+    fmt.Println(err)
+    }
+  
+  
+  
+  
+    var page Book
+    page.Result = address
+  
+  
+    w.Header().Set("Content-Type","application/json")
+    json.NewEncoder(w).Encode(page)
+  */
+  }
+
+
+  // GetAddress, get current address
 func GetAddress(w http.ResponseWriter, r *http.Request) {
 
 a := authorized(w,r)
@@ -88,7 +115,7 @@ return
 
 }
 
-
+//GetNewAddress, get a new address for user
 func GetNewAddress(w http.ResponseWriter, r *http.Request) {
 
 a := authorized(w,r)
