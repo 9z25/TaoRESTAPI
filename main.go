@@ -2,7 +2,7 @@ package main
 
 
 import (
-	      "github.com/toorop/go-bitcoind"
+	      "github.com/9z25/go-bitcoind"
 	      "log"
         "github.com/gorilla/mux"
         "net/http"
@@ -33,6 +33,11 @@ type SendTo struct {
   Recipient string `json:"address"`
   Amount    float64 `json:"amount"`
 }
+
+type RawTx struct {
+  Tx string `json:"tx"`
+}
+
 
 var books []Book
 var Node *bitcoind.Bitcoind
@@ -68,10 +73,13 @@ func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
   return
   }
 
-  fmt.Println(r.Body)
   
-  /*
-    address, err := Node.SendRawTransaction("")
+  var hash RawTx
+
+  _ = json.NewDecoder(r.Body).Decode(&hash)
+  
+  
+    err := Node.SendRawTransaction(hash.Tx)
   
     if err != nil {
     fmt.Println(err)
@@ -81,12 +89,12 @@ func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
   
   
     var page Book
-    page.Result = address
+    page.Result = "view log"
   
   
     w.Header().Set("Content-Type","application/json")
     json.NewEncoder(w).Encode(page)
-  */
+  
   }
 
 
@@ -105,10 +113,6 @@ return
   if err != nil {
   fmt.Println(err)
   }
-
-
-  fmt.Println("address")
-  fmt.Println(address)
 
   var page Book
   page.Result = address
@@ -165,7 +169,6 @@ return
 
 
   book.Result = txid
-  //book.Result = "test666"
 
   json.NewEncoder(w).Encode(book)
 
