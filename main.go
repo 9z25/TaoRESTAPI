@@ -98,7 +98,7 @@ if a != true {
 return
 }
 
-fmt.Println("this is a test")
+
 
   address, err := Node.GetAccountAddress("")
 
@@ -107,7 +107,8 @@ fmt.Println("this is a test")
   }
 
 
-
+  fmt.Println("address")
+  fmt.Println(address)
 
   var page Book
   page.Result = address
