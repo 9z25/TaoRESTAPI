@@ -86,7 +86,9 @@ func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
     if err != nil {
       fmt.Println(err)
       }
+      fmt.Println("res")
       fmt.Println(res)
+      fmt.Println("res")
 
     
 
