@@ -171,7 +171,7 @@ func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
   
   var hash RawTx
 
-  _ = json.NewDecoder(r.Body).Decode(&hash.Tx)
+  _ = json.NewDecoder(r.Body).Decode(&hash)
   
     res, err := Node.DecodeRawTransaction(hash.Tx)
     if err != nil {
@@ -194,6 +194,7 @@ func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
   if a != true {
   return
   }
+  w.Header().Set("Content-Type","application/json")
 
   
   var hash RawTx
@@ -209,7 +210,7 @@ func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
       var book Book
       book.Result = res
 
-    w.Header().Set("Content-Type","application/json")
+    
     json.NewEncoder(w).Encode(book)
 
   
@@ -223,6 +224,7 @@ a := authorized(w,r)
 if a != true {
 return
 }
+w.Header().Set("Content-Type","application/json")
 
 
 
@@ -236,7 +238,7 @@ return
   page.Result = address
 
 
-  w.Header().Set("Content-Type","application/json")
+  
   json.NewEncoder(w).Encode(page)
 
 }
@@ -248,6 +250,7 @@ a := authorized(w,r)
 if a != true {
 return
 }
+w.Header().Set("Content-Type","application/json")
 
   newAddress, err := Node.GetNewAddress("")
 
@@ -260,7 +263,7 @@ return
   book.Result = newAddress
 
 
-  w.Header().Set("Content-Type","application/json")
+  
   json.NewEncoder(w).Encode(book)
 
 }
