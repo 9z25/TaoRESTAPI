@@ -275,19 +275,19 @@ a := authorized(w,r)
 if a != true {
 return
 }
-fmt.Println(r.Body)
+
   w.Header().Set("Content-Type","application/json")
-  var book Book
+  
   var withdraw SendTo
   _ = json.NewDecoder(r.Body).Decode(&withdraw)
-
+  fmt.Println(withdraw)
 
   fmt.Println(withdraw)
    txid, err := Node.SendToAddress(withdraw.Recipient, withdraw.Amount,"tao-rolls alpha","tao-rolls alpha")
                 log.Println(err, txid)
 
 
-
+  var book Book
 
   book.Result = txid
 
