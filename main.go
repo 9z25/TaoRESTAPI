@@ -5,7 +5,7 @@ import (
 	      "github.com/9z25/go-bitcoind"
 	      "log"
         "github.com/gorilla/mux"
-        
+        "io/ioutil"
         "net/http"
         "encoding/json"
         "fmt"
@@ -192,10 +192,16 @@ return
 }
 
   w.Header().Set("Content-Type","application/json")
+
+  reqBody, err := ioutil.ReadAll(r.Body)
+    if err != nil {
+        log.Fatal(err)
+    }
+    fmt.Printf("%s", reqBody)
   
   var withdraw SendTo
   _ = json.NewDecoder(r.Body).Decode(&withdraw)
-  fmt.Printf("%+v\n",withdraw)
+  //fmt.Printf("%+v\n",withdraw)
   
    txid, err := Node.SendToAddress(string(withdraw.Recipient), withdraw.Amount,"tao-rolls alpha","tao-rolls alpha")
                 log.Println(err, txid)
