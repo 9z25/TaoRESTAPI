@@ -202,10 +202,7 @@ return
   decoder := json.NewDecoder(r.Body)
   var withdraw SendTo
 
-  err = decoder.Decode(&withdraw)
-    if err != nil {
-        panic(err)
-    }
+  _ = decoder.Decode(&withdraw)
   fmt.Println(withdraw)
   fmt.Println(withdraw.Recipient)
   
