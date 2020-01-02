@@ -73,6 +73,8 @@ func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
   return
   }
 
+  fmt.Println(r.Body)
+
   
   var hash RawTx
 
