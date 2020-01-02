@@ -198,21 +198,10 @@ return
         log.Fatal(err)
     }
 
-    var obj SendTo
-    if err := json.Unmarshal(t, &obj); err != nil {
+    var withdraw SendTo
+    if err := json.Unmarshal(t, &withdraw); err != nil {
         panic(err)
     }
-
-    fmt.Println(obj)
-    fmt.Println(obj.Recipient)
-
-
-  decoder := json.NewDecoder(r.Body)
-  var withdraw SendTo
-
-  _ = decoder.Decode(&withdraw)
-  fmt.Println(withdraw)
-  fmt.Println(withdraw.Recipient)
   
    txid, err := Node.SendToAddress(withdraw.Recipient, withdraw.Amount,"tao-rolls alpha","tao-rolls alpha")
                 log.Println(err, txid)
