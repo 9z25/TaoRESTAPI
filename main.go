@@ -65,6 +65,34 @@ return false
 return true
 }
 
+//DecodeRawTransaction: broadcast transaction
+func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
+
+  a := authorized(w,r)
+  if a != true {
+  return
+  }
+
+  
+  var hash RawTx
+
+  _ = json.NewDecoder(r.Body).Decode(&hash)
+  
+    res, err := Node.DecodeRawTransaction(hash.Tx)
+    if err != nil {
+      fmt.Println(err)
+      }
+    
+    
+      var book Book
+      book.Result = res
+
+    w.Header().Set("Content-Type","application/json")
+    json.NewEncoder(w).Encode(book)
+  
+  }
+
+
 //SendRawTransaction: broadcast transaction
 func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
 
@@ -78,15 +106,18 @@ func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
 
   _ = json.NewDecoder(r.Body).Decode(&hash)
   
-    res := Node.SendRawTransaction(hash.Tx)
+    res, err := Node.SendRawTransaction(hash.Tx)
+    if err != nil {
+      fmt.Println(err)
+      }
+    
+    
+      var book Book
+      book.Result = res
 
-
-    var page Book
-    page.Result = res.Error()
-  
-  
     w.Header().Set("Content-Type","application/json")
-    json.NewEncoder(w).Encode(page)
+    json.NewEncoder(w).Encode(book)
+
   
   }
 
