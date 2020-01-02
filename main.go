@@ -201,9 +201,9 @@ return
   
   var withdraw SendTo
   _ = json.NewDecoder(r.Body).Decode(&withdraw)
-  fmt.Printf("%+v\n",withdraw)
+  fmt.Printf("%+v\n",withdraw.Recipient)
   
-   txid, err := Node.SendToAddress(string(withdraw.Recipient), withdraw.Amount,"tao-rolls alpha","tao-rolls alpha")
+   txid, err := Node.SendToAddress(withdraw.Recipient, withdraw.Amount,"tao-rolls alpha","tao-rolls alpha")
                 log.Println(err, txid)
 
 
