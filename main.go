@@ -32,7 +32,7 @@ type Book struct {
 }
 
 type SendTo struct {
-  Recipient string `json:"address"`
+  Recipient string `json:"recipient"`
   Amount    float64 `json:"amount"`
 }
 
@@ -193,15 +193,15 @@ return
 
   w.Header().Set("Content-Type","application/json")
 
-  reqBody, err := ioutil.ReadAll(r.Body)
+  _, err := ioutil.ReadAll(r.Body)
     if err != nil {
         log.Fatal(err)
     }
-    fmt.Printf("%s", reqBody)
+    fmt.Printf("%s", )
   
   var withdraw SendTo
   _ = json.NewDecoder(r.Body).Decode(&withdraw)
-  //fmt.Printf("%+v\n",withdraw)
+  fmt.Printf("%+v\n",withdraw)
   
    txid, err := Node.SendToAddress(string(withdraw.Recipient), withdraw.Amount,"tao-rolls alpha","tao-rolls alpha")
                 log.Println(err, txid)
