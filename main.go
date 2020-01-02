@@ -197,11 +197,12 @@ return
     if err != nil {
         log.Fatal(err)
     }
-    fmt.Printf("%s", )
+    //fmt.Printf("%s", )
   
   var withdraw SendTo
   _ = json.NewDecoder(r.Body).Decode(&withdraw)
-  fmt.Printf("%+v\n",withdraw.Recipient)
+  fmt.Println(withdraw)
+  fmt.Println(withdraw.Recipient)
   
    txid, err := Node.SendToAddress(withdraw.Recipient, withdraw.Amount,"tao-rolls alpha","tao-rolls alpha")
                 log.Println(err, txid)
