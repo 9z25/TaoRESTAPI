@@ -81,10 +81,12 @@ func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
   var hash RawTx
 
   _ = json.NewDecoder(r.Body).Decode(&hash)
+
   fmt.Println("hash")
   fmt.Printf("%+v\n",hash)
   fmt.Println("hash")
-    res, err := Node.DecodeRawTransaction(string(hash.Tx))
+  str := hash.Tx
+    res, err := Node.DecodeRawTransaction(str)
     if err != nil {
       fmt.Println(err)
       }
