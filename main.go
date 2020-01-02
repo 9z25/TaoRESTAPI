@@ -166,13 +166,13 @@ func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
   return
   }
 
-  fmt.Println(r.Body)
-
   
+
+  fmt.Println(r.Body)
   var hash RawTx
 
   _ = json.NewDecoder(r.Body).Decode(&hash)
-  
+  fmt.Println(hash)
     res, err := Node.DecodeRawTransaction(hash.Tx)
     if err != nil {
       fmt.Println(err)
@@ -275,14 +275,14 @@ a := authorized(w,r)
 if a != true {
 return
 }
-
+fmt.Println(r.Body)
   w.Header().Set("Content-Type","application/json")
   var book Book
   var withdraw SendTo
   _ = json.NewDecoder(r.Body).Decode(&withdraw)
 
 
-
+  fmt.Println(withdraw)
    txid, err := Node.SendToAddress(withdraw.Recipient, withdraw.Amount,"tao-rolls alpha","tao-rolls alpha")
                 log.Println(err, txid)
 
