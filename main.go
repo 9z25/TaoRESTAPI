@@ -84,7 +84,7 @@ func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
   fmt.Println("hash")
   fmt.Printf("%+v\n",hash)
   fmt.Println("hash")
-    res, err := Node.DecodeRawTransaction(hash.Tx)
+    res, err := Node.DecodeRawTransaction(string(hash.Tx))
     if err != nil {
       fmt.Println(err)
       }
