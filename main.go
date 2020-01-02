@@ -193,11 +193,19 @@ return
 
   w.Header().Set("Content-Type","application/json")
 
-  _, err := ioutil.ReadAll(r.Body)
+  t, err := ioutil.ReadAll(r.Body)
     if err != nil {
         log.Fatal(err)
     }
-    //fmt.Printf("%s", )
+
+    var obj SendTo
+    if err := json.Unmarshal(t, &obj); err != nil {
+        panic(err)
+    }
+
+    fmt.Println(obj)
+    fmt.Println(obj.Recipient)
+
 
   decoder := json.NewDecoder(r.Body)
   var withdraw SendTo
