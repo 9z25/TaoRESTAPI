@@ -75,18 +75,19 @@ func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
   return
   }
 
-  
-
-  fmt.Println(r.Body)
   var hash RawTx
 
-  _ = json.NewDecoder(r.Body).Decode(&hash)
+  d, err := ioutil.ReadAll(r.Body)
+    if err != nil {
+        log.Fatal(err)
+    }
 
-  fmt.Println("hash")
-  fmt.Printf("%+v\n",hash)
-  fmt.Println("hash")
-  str := hash.Tx
-    res, err := Node.DecodeRawTransaction(str)
+
+    if err := json.Unmarshal(d, &hash); err != nil {
+        panic(err)
+    }
+
+    res, err := Node.DecodeRawTransaction(hash.Tx)
     if err != nil {
       fmt.Println(err)
       }
@@ -193,13 +194,13 @@ return
 
   w.Header().Set("Content-Type","application/json")
 
-  t, err := ioutil.ReadAll(r.Body)
+  d, err := ioutil.ReadAll(r.Body)
     if err != nil {
         log.Fatal(err)
     }
 
     var withdraw SendTo
-    if err := json.Unmarshal(t, &withdraw); err != nil {
+    if err := json.Unmarshal(d, &withdraw); err != nil {
         panic(err)
     }
   
