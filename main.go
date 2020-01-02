@@ -198,12 +198,13 @@ return
         log.Fatal(err)
     }
     //fmt.Printf("%s", )
-  
+
+  decoder := json.NewDecoder(r.Body)
   var withdraw SendTo
-  err := json.NewDecoder(r.Body).Decode(&withdraw)
+
+  err = decoder.Decode(&withdraw)
     if err != nil {
-        http.Error(w, err.Error(), http.StatusBadRequest)
-        return
+        panic(err)
     }
   fmt.Println(withdraw)
   fmt.Println(withdraw.Recipient)
