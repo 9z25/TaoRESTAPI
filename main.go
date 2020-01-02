@@ -200,7 +200,11 @@ return
     //fmt.Printf("%s", )
   
   var withdraw SendTo
-  _ = json.NewDecoder(r.Body).Decode(&withdraw)
+  err := json.NewDecoder(r.Body).Decode(&withdraw)
+    if err != nil {
+        http.Error(w, err.Error(), http.StatusBadRequest)
+        return
+    }
   fmt.Println(withdraw)
   fmt.Println(withdraw.Recipient)
   
