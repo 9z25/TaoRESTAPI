@@ -2,24 +2,23 @@ package main
 
 
 import (
-	"github.com/9z25/go-bitcoind"
-	"log"
-//        "github.com/gorilla/handlers"
-//"github.com/rs/cors"
+	      "github.com/9z25/go-bitcoind"
+	      "log"
         "github.com/gorilla/mux"
+        
         "net/http"
         "encoding/json"
         "fmt"
-//        "os"
 )
 
 const (
 	SERVER_HOST        = "127.0.0.1"
 	SERVER_PORT        = 15151
-	USER               = ""
-	PASSWD             = ""
+	USER               = "testuser"
+	PASSWD             = "test"
 	USESSL             = false
 )
+
 
 
 type TaoNode struct {
@@ -37,10 +36,16 @@ type SendTo struct {
   Amount    float64 `json:"amount"`
 }
 
+type RawTx struct {
+  Tx string `json:"tx"`
+}
+
+
 var books []Book
 var Node *bitcoind.Bitcoind
 
 
+// Connect: Connect to RPC
 func (taoN TaoNode) Connect() *bitcoind.Bitcoind {
 
   connection, err := bitcoind.New(SERVER_HOST, SERVER_PORT, USER, PASSWD, USESSL)
@@ -62,12 +67,74 @@ return false
 return true
 }
 
+//DecodeRawTransaction: broadcast transaction
+func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
+
+  a := authorized(w,r)
+  if a != true {
+  return
+  }
+
+  
+
+  fmt.Println(r.Body)
+  var hash RawTx
+
+  _ = json.NewDecoder(r.Body).Decode(&hash)
+  fmt.Println(hash)
+    res, err := Node.DecodeRawTransaction(hash.Tx)
+    if err != nil {
+      fmt.Println(err)
+      }
+      fmt.Println(res)
+
+    
+
+    w.Header().Set("Content-Type","application/json")
+    json.NewEncoder(w).Encode(res)
+  
+  }
+
+
+//SendRawTransaction: broadcast transaction
+func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
+
+  a := authorized(w,r)
+  if a != true {
+  return
+  }
+  w.Header().Set("Content-Type","application/json")
+
+  
+  var hash RawTx
+
+  _ = json.NewDecoder(r.Body).Decode(&hash)
+  
+    res, err := Node.SendRawTransaction(hash.Tx)
+    if err != nil {
+      fmt.Println(err)
+      }
+    
+    
+      var book Book
+      book.Result = res
+
+    
+    json.NewEncoder(w).Encode(book)
+
+  
+  }
+
+
+  // GetAddress : get current address
 func GetAddress(w http.ResponseWriter, r *http.Request) {
 
 a := authorized(w,r)
 if a != true {
 return
 }
+w.Header().Set("Content-Type","application/json")
+
 
 
   address, err := Node.GetAccountAddress("")
@@ -76,25 +143,23 @@ return
   fmt.Println(err)
   }
 
-
-
-
   var page Book
   page.Result = address
 
 
-  w.Header().Set("Content-Type","application/json")
+  
   json.NewEncoder(w).Encode(page)
 
 }
 
-
+//GetNewAddress, get a new address for user
 func GetNewAddress(w http.ResponseWriter, r *http.Request) {
 
 a := authorized(w,r)
 if a != true {
 return
 }
+w.Header().Set("Content-Type","application/json")
 
   newAddress, err := Node.GetNewAddress("")
 
@@ -107,11 +172,12 @@ return
   book.Result = newAddress
 
 
-  w.Header().Set("Content-Type","application/json")
+  
   json.NewEncoder(w).Encode(book)
 
 }
 
+//SendToAddress: send Tao to external address
 func SendToAddress(w http.ResponseWriter, r *http.Request) {
 
 a := authorized(w,r)
@@ -120,20 +186,19 @@ return
 }
 
   w.Header().Set("Content-Type","application/json")
-  var book Book
+  
   var withdraw SendTo
   _ = json.NewDecoder(r.Body).Decode(&withdraw)
+  fmt.Println(withdraw)
 
-
-
+  fmt.Println(withdraw)
    txid, err := Node.SendToAddress(withdraw.Recipient, withdraw.Amount,"tao-rolls alpha","tao-rolls alpha")
                 log.Println(err, txid)
 
 
-
+  var book Book
 
   book.Result = txid
-  //book.Result = "test666"
 
   json.NewEncoder(w).Encode(book)
 
@@ -168,6 +233,8 @@ func main() {
        r.HandleFunc("/api/getnewaddress/", GetNewAddress).Methods("GET")
        r.HandleFunc("/api/getaddress/", GetAddress).Methods("GET")
        r.HandleFunc("/api/sendtoaddress/", SendToAddress).Methods("POST")
+       r.HandleFunc("/api/sendrawtransaction/", SendRawTransaction).Methods("POST")
+       r.HandleFunc("/api/decoderawtransaction/", DecodeRawTransaction).Methods("POST")
        log.Fatal(http.ListenAndServe(":8000", r))
        //log.Fatal(http.ListenAndServe(":8000",r))
 
