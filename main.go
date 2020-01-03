@@ -178,7 +178,7 @@ func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
       book.Result = res
 
     
-    json.NewEncoder(w).Encode(book)
+    json.NewEncoder(w).Encode(res)
 
   
   }
