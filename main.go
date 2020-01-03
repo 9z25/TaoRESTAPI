@@ -40,6 +40,58 @@ type RawTx struct {
   Tx string `json:"tx"`
 }
 
+// A ScriptSig represents a scriptsyg
+type ScriptSig struct {
+	Asm string `json:"asm"`
+	Hex string `json:"hex"`
+}
+
+// Vin represent an IN value
+type Vin struct {
+	Coinbase  string    `json:"coinbase"`
+	Txid      string    `json:"txid"`
+	Vout      int       `json:"vout"`
+	ScriptSig ScriptSig `json:"scriptSig"`
+	Sequence  uint32    `json:"sequence"`
+}
+
+type ScriptPubKey struct {
+	Asm       string   `json:"asm"`
+	Hex       string   `json:"hex"`
+	ReqSigs   int      `json:"reqSigs,omitempty"`
+	Type      string   `json:"type"`
+	Addresses []string `json:"addresses,omitempty"`
+}
+
+// Vout represent an OUT value
+type Vout struct {
+	Value        float64      `json:"value"`
+	N            int          `json:"n"`
+	ScriptPubKey ScriptPubKey `json:"scriptPubKey"`
+}
+
+type RawTransaction struct {
+	Hex           string `json:"hex"`
+	Txid          string `json:"txid"`
+	Version       uint32 `json:"version"`
+	LockTime      uint32 `json:"locktime"`
+	Vin           []Vin  `json:"vin"`
+	Vout          []Vout `json:"vout"`
+	BlockHash     string `json:"blockhash,omitempty"`
+	Confirmations uint64 `json:"confirmations,omitempty"`
+	Time          int64  `json:"time,omitempty"`
+	Blocktime     int64  `json:"blocktime,omitempty"`
+}
+
+
+// TransactionDetails represents details about a transaction
+type TransactionDetails struct {
+	Account  string  `json:"account"`
+	Address  string  `json:"address,omitempty"`
+	Category string  `json:"category"`
+	Amount   float64 `json:"amount"`
+	Fee      float64 `json:"fee,omitempty"`
+}
 
 var books []Book
 var Node *bitcoind.Bitcoind
@@ -92,19 +144,16 @@ func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
       fmt.Println(err)
     }
 
+
+
+
+
     fmt.Println(res)
-    fmt.Println("^%^&%$&$%*&$*&$*%&res")
-
-    
-
-    tx, err := json.Marshal(res)
-
-    fmt.Println(tx)
 
     
 
     w.Header().Set("Content-Type","application/json")
-    json.NewEncoder(w).Encode(tx)
+    json.NewEncoder(w).Encode(res)
   
   }
 
