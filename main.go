@@ -67,7 +67,7 @@ return false
 return true
 }
 
-//DecodeRawTransaction: broadcast transaction
+//DecodeRawTransaction: decode raw transaction, send back json
 func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
 
   a := authorized(w,r)
@@ -92,9 +92,11 @@ func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
       fmt.Println(err)
     }
 
-    fmt.Println(res)
+    
 
     tx, err := json.Marshal(res)
+
+    fmt.Println(tx)
 
     
 
