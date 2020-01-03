@@ -91,14 +91,13 @@ func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
     if err != nil {
       fmt.Println(err)
       }
-      fmt.Println("res")
-      fmt.Println(res)
-      fmt.Println("res")
+
+    fmt.Println(res)
 
     
 
     w.Header().Set("Content-Type","application/json")
-    json.NewEncoder(w).Encode(res)
+    json.NewEncoder(w).Encode(hash)
   
   }
 
