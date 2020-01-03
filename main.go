@@ -144,12 +144,6 @@ func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
       fmt.Println(err)
     }
 
-
-
-
-
-    fmt.Println(res)
-
     
 
     w.Header().Set("Content-Type","application/json")
@@ -176,6 +170,8 @@ func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
     if err != nil {
       fmt.Println(err)
       }
+
+      fmt.Println(res)
     
     
       var book Book
