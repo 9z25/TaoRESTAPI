@@ -92,6 +92,9 @@ func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
       fmt.Println(err)
     }
 
+    fmt.Println(res)
+    fmt.Println("^%^&%$&$%*&$*&$*%&res")
+
     
 
     tx, err := json.Marshal(res)
