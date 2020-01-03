@@ -169,6 +169,7 @@ func SendRawTransaction(w http.ResponseWriter, r *http.Request) {
     res, err := Node.SendRawTransaction(hash.Tx)
     if err != nil {
       fmt.Println(err)
+      json.NewEncoder(w).Encode(err)
       }
 
       fmt.Println(res)
