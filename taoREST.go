@@ -160,6 +160,7 @@ func GetTransaction(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+	fmt.Println(res)
 	json.NewEncoder(w).Encode(res)
 }
 
@@ -346,7 +347,7 @@ func main() {
 	r.HandleFunc("/api/getnewaddress/", GetNewAddress).Methods("GET")
 	r.HandleFunc("/api/getaddress/", GetAddress).Methods("GET")
 	r.HandleFunc("/api/sendtoaddress/", SendToAddress).Methods("POST")
-	r.HandleFunc("/api/gettransaction/{txid}", SendRawTransaction).Methods("GET")
+	r.HandleFunc("/api/gettransaction/{txid}", GetTransaction).Methods("GET")
 	r.HandleFunc("/api/sendrawtransaction/", SendRawTransaction).Methods("POST")
 	r.HandleFunc("/api/decoderawtransaction/", DecodeRawTransaction).Methods("POST")
 	r.HandleFunc("/api/getunspents/", GetUnspents).Methods("GET")
