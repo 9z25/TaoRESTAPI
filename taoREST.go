@@ -164,6 +164,28 @@ func GetTransaction(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(res)
 }
 
+//GetRawTransaction decode raw transaction, send back json
+func GetRawTransaction(w http.ResponseWriter, r *http.Request) {
+
+	a := authorized(w, r)
+	if a != true {
+		return
+	}
+
+	params := mux.Vars(r)
+	txid := params["txid"]
+	fmt.Println(txid)
+
+	res, err := Node.GetRawTransaction(txid, true)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	fmt.Println(res)
+	json.NewEncoder(w).Encode(res)
+}
+
 //DecodeRawTransaction decode raw transaction, send back json
 func DecodeRawTransaction(w http.ResponseWriter, r *http.Request) {
 
@@ -348,6 +370,7 @@ func main() {
 	r.HandleFunc("/api/getaddress/", GetAddress).Methods("GET")
 	r.HandleFunc("/api/sendtoaddress/", SendToAddress).Methods("POST")
 	r.HandleFunc("/api/gettransaction/{txid}", GetTransaction).Methods("GET")
+	r.HandleFunc("/api/getrawtransaction/{txid}", GetTransaction).Methods("GET")
 	r.HandleFunc("/api/sendrawtransaction/", SendRawTransaction).Methods("POST")
 	r.HandleFunc("/api/decoderawtransaction/", DecodeRawTransaction).Methods("POST")
 	r.HandleFunc("/api/getunspents/", GetUnspents).Methods("GET")
