@@ -176,7 +176,7 @@ func GetRawTransaction(w http.ResponseWriter, r *http.Request) {
 	txid := params["txid"]
 	fmt.Println(txid)
 
-	res, err := Node.GetRawTransaction(txid, true)
+	res, err := Node.GetRawTransaction(txid, false)
 	if err != nil {
 		fmt.Println(err)
 	}
