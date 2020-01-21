@@ -176,7 +176,7 @@ func GetRawTransaction(w http.ResponseWriter, r *http.Request) {
 	txid := params["txid"]
 	fmt.Println(txid)
 
-	res, err := Node.GetRawTransaction(txid, false)
+	res, err := Node.GetRawTransaction(txid, true)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -316,46 +316,7 @@ func SendToAddress(w http.ResponseWriter, r *http.Request) {
 
 }
 
-// GetUnspent test
-func GetUnspents(w http.ResponseWriter, r *http.Request) {
-	var url = "https://taoexplorer.com/ext/getaddress/"
-	var hash RawTx
 
-	resp, err := http.Get(url)
-	if err != nil {
-		panic(err)
-	}
-
-	defer resp.Body.Close()
-
-	d, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	if err := json.Unmarshal(d, &hash); err != nil {
-		panic(err)
-	}
-	fmt.Println(hash)
-
-	req, _ := http.NewRequest("GET", url+hash.Tx, nil)
-
-	client := &http.Client{}
-
-	res, _ := client.Do(req)
-
-	defer res.Body.Close()
-	body, err := ioutil.ReadAll(res.Body)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println("test")
-	fmt.Println(body)
-	var fmNode TaoExplorer
-	json.Unmarshal(body, &fmNode)
-
-}
 
 func main() {
 
@@ -373,6 +334,6 @@ func main() {
 	r.HandleFunc("/api/getrawtransaction/{txid}", GetTransaction).Methods("GET")
 	r.HandleFunc("/api/sendrawtransaction/", SendRawTransaction).Methods("POST")
 	r.HandleFunc("/api/decoderawtransaction/", DecodeRawTransaction).Methods("POST")
-	r.HandleFunc("/api/getunspents/", GetUnspents).Methods("GET")
+	
 	log.Fatal(http.ListenAndServe(":8000", r))
 }
